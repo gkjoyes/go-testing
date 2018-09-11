@@ -8,4 +8,18 @@ Georgekutty
 Go Developer, Qburst
 qb.kutty@gmail.com
 
-* Slide 1 title
+* Basic
+
+* Testing Go Code
+
+- Go has built-in *testing* framework.
+
+- It is provided by the testing package and the *go* *test* command.
+
+- Here is a complete test file that tests the strings.Index function:
+
+.code tests/index_test.go
+
+* Table-driven test
+
+- Go's sturct literal syntax makes it easy to write table-driven tests:

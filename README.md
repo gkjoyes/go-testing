@@ -1,6 +1,3 @@
-# go-testing
-Golang testing tips &amp; tricks
-
 ## Working with present tool
 
 1. go get code.google.com/p/go.talks/present
