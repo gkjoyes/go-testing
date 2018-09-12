@@ -12,14 +12,37 @@ qb.kutty@gmail.com
 
 * Testing Go Code
 
-- Go has built-in *testing* framework.
+➩ Go has built-in *testing* framework.
 
-- It is provided by the testing package and the *go* *test* command.
+➩ It is provided by the testing package and the *go* *test* command.
 
-- Here is a complete test file that tests the strings.Index function:
+➩ Here is a complete test file that tests the strings.Index function:
 
-.code tests/index_test.go
+.code -edit tests/unit/index_test.go
 
 * Table-driven test
 
-- Go's sturct literal syntax makes it easy to write table-driven tests:
+➩ Go's sturct literal syntax makes it easy to write table-driven tests:
+
+.code -edit tests/table/index_test.go /^func TestIndex/,/^}/
+
+* Testing arguments
+
+
+➪ The **testing.T* argument is used for error reporting and logging:
+
+    t.Errorf("got bar = %v, want %v", got, want)
+    t.Fatalf("Frobnicate(%v) returned error: %v", arg, err)
+    t.Logf("iteration %v", i)
+
+
+➪ Enabling parallel tests:
+
+    t.Parallel()
+
+
+➪ Controlling whether a test runs at all /HL
+
+    if runtime.GOARCH == "arm" {
+        t.Skip("this does't work on ARM")
+    }
