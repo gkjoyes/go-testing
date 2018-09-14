@@ -1,0 +1,3 @@
+mode: set
+github.com/g-kutty/go-testing/tests/coverage/handlers/handler.go:9.15,11.2 1 1
+github.com/g-kutty/go-testing/tests/coverage/handlers/handler.go:14.54,26.2 4 1

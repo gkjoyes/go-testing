@@ -46,3 +46,50 @@ qb.kutty@gmail.com
     if runtime.GOARCH == "arm" {
         t.Skip("this does't work on ARM")
     }
+
+* Runnin tests
+
+➪ The *go* *test* command runs tests for the specified package.(It defaults to the package in the current directory.)
+
+    $ go test
+    PASS
+    ok  	github.com/g-kutty/go-testing/tests/unit	0.002s
+
+
+    $ go test -v
+    === RUN   TestIndex
+    --- PASS: TestIndex (0.00s)
+    PASS
+    ok  	github.com/g-kutty/go-testing/tests/unit	0.002s
+
+
+➪ To run the tests for all my projects:
+
+    $ go test github/g-kutty/go-testing/...
+
+➪ We can run tests for the standard library:
+
+    $ go test fmt
+
+* Test coverage
+
+➪ The go tool can report test coverage statistics.
+
+    $ go test -cover
+    
+    PASS
+    coverage: 100.0% of statements
+    ok  	github.com/g-kutty/go-testing/tests/coverage/handlers	0.003s
+
+➪ The go tool can generate coverage profiles that may be intepreted by the cover tool.
+
+    $ go test -coverprofile=cover.out
+    $ go tool cover -func=cover.out
+
+    github.com/g-kutty/go-testing/tests/coverage/handlers/handler.go:9:	Routes		100.0%
+    github.com/g-kutty/go-testing/tests/coverage/handlers/handler.go:14:	GetUser		100.0%
+    total:									(statements)	100.0%
+
+* Test visualization
+
+.image images/coverage.png
