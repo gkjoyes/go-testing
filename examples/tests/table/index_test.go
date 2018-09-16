@@ -1,4 +1,4 @@
-package table_test
+package table
 
 import (
 	"strings"

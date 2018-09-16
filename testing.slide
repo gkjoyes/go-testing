@@ -18,16 +18,15 @@ qb.kutty@gmail.com
 
 ➩ Here is a complete test file that tests the strings.Index function:
 
-.code -edit tests/unit/index_test.go
+.code -edit examples/tests/unit/index_test.go
 
 * Table-driven test
 
 ➩ Go's sturct literal syntax makes it easy to write table-driven tests:
 
-.code -edit tests/table/index_test.go /^func TestIndex/,/^}/
+.code -edit examples/tests/table/index_test.go /^func TestIndex/,/^}/
 
 * Testing arguments
-
 
 ➪ The **testing.T* argument is used for error reporting and logging:
 
@@ -47,20 +46,20 @@ qb.kutty@gmail.com
         t.Skip("this does't work on ARM")
     }
 
-* Runnin tests
+* Running tests
 
 ➪ The *go* *test* command runs tests for the specified package.(It defaults to the package in the current directory.)
 
     $ go test
     PASS
-    ok  	github.com/g-kutty/go-testing/tests/unit	0.002s
+    ok  	github.com/g-kutty/go-testing/examples/unit	0.002s
 
 
     $ go test -v
     === RUN   TestIndex
     --- PASS: TestIndex (0.00s)
     PASS
-    ok  	github.com/g-kutty/go-testing/tests/unit	0.002s
+    ok  	github.com/g-kutty/go-testing/examples/unit	0.002s
 
 
 ➪ To run the tests for all my projects:
@@ -79,17 +78,106 @@ qb.kutty@gmail.com
     
     PASS
     coverage: 100.0% of statements
-    ok  	github.com/g-kutty/go-testing/tests/coverage/handlers	0.003s
+    ok  	github.com/g-kutty/go-testing/examples/coverage/handlers	0.003s
 
 ➪ The go tool can generate coverage profiles that may be intepreted by the cover tool.
 
     $ go test -coverprofile=cover.out
     $ go tool cover -func=cover.out
 
-    github.com/g-kutty/go-testing/tests/coverage/handlers/handler.go:9:	Routes		100.0%
-    github.com/g-kutty/go-testing/tests/coverage/handlers/handler.go:14:	GetUser		100.0%
+    github.com/g-kutty/go-testing/examples/coverage/handlers/handler.go:9:	Routes		100.0%
+    github.com/g-kutty/go-testing/examples/coverage/handlers/handler.go:14:	GetUser		100.0%
     total:									(statements)	100.0%
 
 * Test visualization
 
-.image images/coverage.png
+➪ The go tool allows you to  see a visual of what is and is not covered.
+
+    $ go tool cover -html=cover.out
+
+.image images/coverage.png 400 600
+
+* Advanced Techniques
+
+* Testing HTTP clients and servers
+
+➪ The *net/http/httptest* package provides helpers for testing code that makes for serves HTTP requests.
+
+* httptest.servers
+
+➪ An *httptest.Server* listens on a system-chosen port on the local loopback interface, for use in end-to-end HTTP tests.
+
+    type Server struct {
+        URL      string // base URL of form http://ipaddr:port with no trailing slash
+        Listener net.Listener
+
+        // TLS is the optional TLS configuration, populated with a new config
+        // after TLS is started. If set on an unstarted server before StartTLS
+        // is called, existing fields are copied into the new config.
+        TLS *tls.Config
+
+        // Config may be changed after calling NewUnstartedServer and
+        // before Start or StartTLS.
+        Config *http.Server
+        // contains filtered or unexported fields
+    }
+
+* 
+
+➪ *NewServer* starts and returns a new Server. The caller should call Close when finished, to shut it down.
+
+    func NewServer(handler http.Handler) *Server
+
+➪ *Close* shuts down the server and blocks until all outstanding requests on this server have completed.  
+
+    func (s *Server) Close()
+
+* httptest.Server in action
+
+➪ This code sets up a temporary HTTP server that serves a simple "Hello" response.
+
+.play -edit examples/http_server/action.go /^func main/,/^}/
+
+* httptest.ResponseRecorder
+
+➪ ResponseRecorder is an implementation of *http.ResponseWriter* that records its mutations for later inspection in tests.
+
+    type ResponseRecorder struct {
+        Code int // the HTTP response code from WriteHeader
+        HeaderMap http.Header // the HTTP response headers
+        Body *bytes.Buffer // if non-nil, the bytes.Buffer to append written data to
+        Flushed bool
+    }
+
+* httptest.ResponseRecorder in action
+
+➪ By passing a ResponseRecorder into an HTTP handler we can inspect the generated response.
+
+.play -edit examples/response_recorder/action.go /^func main/,/^}/
+
+* Race Detection
+
+➪ A *data* *race* occurs when two goroutines access the same variable concurrently and at least one of the access is a write.
+
+➪ To help diagnose such bugs, Go includes a built-in data *race* detector.
+
+➪ Pass the *-race* flag to the go tool to enable the race detector:
+
+    $ go test -race mypkg    // to test the package
+    $ go run -race mysrc.go  // to run the source file
+    $ go build -race mycmd   // to build the command
+    $ go install -race mypkg // to install the package 
+
+* Subtests
+
+➪ Go *1.7* introduces a Run method for creating subtests
+
+.code -edit examples/tests/sub/sub_test.go /^func TestPrimeSequential/,/^}/
+
+* 
+
+➪ Run a group of tests in *parallel*
+
+.code -edit examples/tests/sub/sub_parallel_test.go /^func TestPrimeParallel/,/^}/
+
+➪ The outer test will not complete until all parallel tests started by Run have completed. As a result, no other parallel tests can run in parallel to these parallel tests.
