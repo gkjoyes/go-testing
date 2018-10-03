@@ -1,7 +1,7 @@
 Testing
 
 Golang testing tips & tricks
-15:04 11 Sep 2018
+11:30 04 Oct 2018
 Tags: testing, golang, techniques
 
 Georgekutty
@@ -12,21 +12,21 @@ qb.kutty@gmail.com
 
 * Testing Go Code
 
-➩ Go has built-in *testing* framework.
+➩ Go has built-in testing *framework*.
 
-➩ It is provided by the testing package and the *go* *test* command.
+➩ It is provided by the *testing* package and the *go* *test* command.
 
 ➩ Here is a complete test file that tests the strings.Index function:
 
-.code -edit examples/tests/unit/index_test.go
+.code -edit examples/techniques/unit/index_test.go
 
 * Table-driven test
 
 ➩ Go's sturct literal syntax makes it easy to write table-driven tests:
 
-.code -edit examples/tests/table/index_test.go /^func TestIndex/,/^}/
+.code -edit examples/techniques/table/index_test.go /^func TestIndex/,/^}/
 
-* Testing arguments
+* Argument - T
 
 ➪ The **testing.T* argument is used for error reporting and logging:
 
@@ -34,13 +34,7 @@ qb.kutty@gmail.com
     t.Fatalf("Frobnicate(%v) returned error: %v", arg, err)
     t.Logf("iteration %v", i)
 
-
-➪ Enabling parallel tests:
-
-    t.Parallel()
-
-
-➪ Controlling whether a test runs at all /HL
+➪ Controlling whether a test runs at all:
 
     if runtime.GOARCH == "arm" {
         t.Skip("this does't work on ARM")
@@ -50,25 +44,23 @@ qb.kutty@gmail.com
 
 ➪ The *go* *test* command runs tests for the specified package.(It defaults to the package in the current directory.)
 
-    $ go test
-    PASS
-    ok  	github.com/g-kutty/go-testing/examples/unit	0.002s
-
-
     $ go test -v
     === RUN   TestIndex
     --- PASS: TestIndex (0.00s)
     PASS
     ok  	github.com/g-kutty/go-testing/examples/unit	0.002s
 
-
 ➪ To run the tests for all my projects:
 
     $ go test github/g-kutty/go-testing/...
 
-➪ We can run tests for the standard library:
+➪ To run the tests for the standard library:
 
     $ go test fmt
+
+* 
+
+.link https://golang.org/cmd/go/#hdr-Testing_flags More test flags 
 
 * Test coverage
 
@@ -77,17 +69,21 @@ qb.kutty@gmail.com
     $ go test -cover
     
     PASS
-    coverage: 100.0% of statements
-    ok  	github.com/g-kutty/go-testing/examples/coverage/handlers	0.003s
+    === RUN   TestSize
+    --- PASS: TestSize (0.00s)
+    PASS
+    coverage: 37.5% of statements
+    ok  	github.com/g-kutty/go-testing/examples/coverage	0.002s
 
 ➪ The go tool can generate coverage profiles that may be intepreted by the cover tool.
 
     $ go test -coverprofile=cover.out
     $ go tool cover -func=cover.out
 
-    github.com/g-kutty/go-testing/examples/coverage/handlers/handler.go:9:	Routes		100.0%
-    github.com/g-kutty/go-testing/examples/coverage/handlers/handler.go:14:	GetUser		100.0%
-    total:									(statements)	100.0%
+    github.com/g-kutty/go-testing/examples/coverage/example.go:7:	main		0.0%
+    github.com/g-kutty/go-testing/examples/coverage/example.go:12:	size		42.9%
+    total:								(statements)	37.5%
+
 
 * Test visualization
 
@@ -95,7 +91,7 @@ qb.kutty@gmail.com
 
     $ go tool cover -html=cover.out
 
-.image images/coverage.png 400 600
+.image images/coverage.png 450 650
 
 * Advanced Techniques
 
@@ -136,7 +132,7 @@ qb.kutty@gmail.com
 
 ➪ This code sets up a temporary HTTP server that serves a simple "Hello" response.
 
-.play -edit examples/http_server/action.go /^func main/,/^}/
+.play -edit examples/http_server/example.go /^func main/,/^}/
 
 * httptest.ResponseRecorder
 
@@ -153,7 +149,7 @@ qb.kutty@gmail.com
 
 ➪ By passing a ResponseRecorder into an HTTP handler we can inspect the generated response.
 
-.play -edit examples/response_recorder/action.go /^func main/,/^}/
+.play -edit examples/response_recorder/example.go /^func main/,/^}/
 
 * Race Detection
 
@@ -172,12 +168,12 @@ qb.kutty@gmail.com
 
 ➪ Go *1.7* introduces a Run method for creating subtests
 
-.code -edit examples/tests/sub/sub_test.go /^func TestPrimeSequential/,/^}/
+.code -edit examples/techniques/sub/sub_test.go /^func TestPrimeSequential/,/^}/
 
 * 
 
 ➪ Run a group of tests in *parallel*
 
-.code -edit examples/tests/sub/sub_parallel_test.go /^func TestPrimeParallel/,/^}/
+.code -edit examples/techniques/sub/sub_parallel_test.go /^func TestPrimeParallel/,/^}/
 
 ➪ The outer test will not complete until all parallel tests started by Run have completed. As a result, no other parallel tests can run in parallel to these parallel tests.

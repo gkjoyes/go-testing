@@ -1,0 +1,9 @@
+mode: set
+github.com/g-kutty/go-testing/examples/coverage/example.go:7.13,9.2 1 0
+github.com/g-kutty/go-testing/examples/coverage/example.go:12.25,13.9 1 1
+github.com/g-kutty/go-testing/examples/coverage/example.go:25.2,25.19 1 0
+github.com/g-kutty/go-testing/examples/coverage/example.go:14.13,15.20 1 1
+github.com/g-kutty/go-testing/examples/coverage/example.go:16.14,17.16 1 1
+github.com/g-kutty/go-testing/examples/coverage/example.go:18.14,19.17 1 0
+github.com/g-kutty/go-testing/examples/coverage/example.go:20.15,21.15 1 0
+github.com/g-kutty/go-testing/examples/coverage/example.go:22.16,23.16 1 0

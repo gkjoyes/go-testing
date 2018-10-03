@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/g-kutty/go-testing/tests/coverage/handlers"
+	"github.com/g-kutty/go-testing/examples/coverage/handlers"
 )
 
 func main() {
