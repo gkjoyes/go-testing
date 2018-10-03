@@ -177,3 +177,46 @@ qb.kutty@gmail.com
 .code -edit examples/techniques/sub/sub_parallel_test.go /^func TestPrimeParallel/,/^}/
 
 ➪ The outer test will not complete until all parallel tests started by Run have completed. As a result, no other parallel tests can run in parallel to these parallel tests.
+
+
+* Finding errors with static analysis: vet
+
+➪ The vet tool checks code for common programmer mistakes:
+
+- bad printf formats,
+
+- bad build tags,
+
+- bad range loop variable use in closures,
+
+- useless assignments,
+
+- unreachable code,
+
+- bad use of mutexes,
+
+- and more.
+
+➪ Usage:
+
+    go vet [package]go vet [package]
+
+* Testing from the inside
+
+- Most tests are compiled as part of the package under test.
+
+- This means they can access unexported details, as we have already seen.
+
+* Testing from the outside
+
+➪ Occasionally you want to run your tests from *outside* the package under test.
+
+➪ Test files as package `foo_test` instead of package foo.
+
+➪ This can break dependency cycles. For example:
+
+- The `testing` package uses `fmt`.
+
+- The fmt tests must import `testing`.
+ 
+- So the fmt tests are in package `fmt_test` and can import both `testing` and `fmt`.
