@@ -13,3 +13,5 @@
 6. [Slides](https://talks.godoc.org/github.com/g-kutty/go-testing/testing.slide)
 
 7. [Benchmarking](https://golang.org/pkg/testing/#hdr-Benchmarks)
+
+8. Command: `go test -run none -bench . -benchtime 3s -benchmem`
