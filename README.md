@@ -9,3 +9,5 @@
 4. go to localhost:3999 on your browser.
 
 5. Upload project to `github` and Link `.slide` file via [talks.godoc.org](https://talks.godoc.org/) for web access.
+
+6. [slides](https://talks.godoc.org/github.com/g-kutty/go-testing/testing.slide)
